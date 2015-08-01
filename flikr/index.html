@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html lang="en" ng-app="ngFlickr">
+    
+    <head>
+
+        <title>Flickr app</title>
+
+        <!-- Angular Material CSS file -->
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
+        <!-- A lovely font from Google -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+
+        <meta name="viewport" content="initial-scale=1" />
+
+        <!-- Angular Material Dependencies -->
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-animate.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-aria.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-resource.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.js"></script>
+
+        <!-- Flickr app file -->
+        <script src="js/ngFlickr.js"></script>
+
+    </head>
+    
+    <body layout="column" ng-controller="FlickrController">
+        <md-toolbar layout="row">
+ 
+            <!-- Main toolbar at the top of the page -->
+            <div class="md-toolbar-tools">
+                <!-- Sidenav toggle -->
+                <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
+                    <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
+                </md-button>
+
+                 <h2>Flickr App</h2>
+
+            </div>
+        </md-toolbar>
+
+        <div layout="row" flex>
+
+            <!-- Sidenav -->
+            <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+                <md-list>
+                    <md-subheader class="md-no-sticky">Results for:</md-subheader>
+                    <md-chips ng-model="tags" readonly="true"></md-chips>
+                    <md-list-item class="md-3-line" ng-repeat="photo in flickr.items | reverse">
+                        <p ng-bind-html="secure(photo.description)"></p>
+                    </md-list-item>
+                    <md-divider></md-divider>
+                </md-list>
+            </md-sidenav>
+
+            <!-- Main content section -->
+            <div layout="column" flex id="content">
+                <md-content layout="column" flex class="md-padding">
+ 
+                    <!-- Chips used to display the tags-->
+                    <md-chips ng-model="tags" readonly="readonly" placeholder="Search a tag" delete-button-label="Remove Tag" delete-hint="Press delete to remove tag" secondary-placeholder="+Tag"></md-chips>
+
+                    <!-- A grid list to display the images -->
+                    <md-grid-list md-cols-sm="1" md-cols-md="2" md-cols-gt-md="4" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+                        <md-grid-tile background="{{photo.media.m}}" md-colspan-sm="1" ng-repeat="photo in flickr.items">
+                            <md-grid-tile-footer>
+                                 <h3 ng-bind="photo.title"></h3>
+
+                            </md-grid-tile-footer>
+                        </md-grid-tile>
+                    </md-grid-list>
+                </md-content>
+            </div>
+        </div>
+    </body>
+
+</html>
